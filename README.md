@@ -3,11 +3,16 @@ A password generator API written in Symfony 4
 
 ## Use the API
 <https://password.markei.nl/human?count=10> to get a list of passwords, prefer a JSON output? Send a Accept: application/json header or add .json to the url (<https://password.markei.nl/human.json?count=10>).
-The following formats are available: html, json, xml, txt (plain)
+The following formats are available: [html](https://password.markei.nl/human.html), [json](https://password.markei.nl/human.json), [xml](https://password.markei.nl/human.xml), [txt (plain)](https://password.markei.nl/human.txt)
+
+### Example
+
+    pw=`curl https://password.markei.nl/randomsave.txt`
+    echo %pw
 
 ### Available endpoints
 
-#### /human
+#### [/human](https://password.markei.nl/human)
 Generates a password that is easy to remember for humans
 Available options:
 * **count**: number of passwords to generate (default: 1, limit: 1000)
@@ -17,13 +22,13 @@ Available options:
 * **numberOfCaps**: the maxium number of caps in the word
 * **numberLength**: the number of digits to at to the word
 
-#### /random
+#### [/randomsave](https://password.markei.nl/randomsave)
 Generates a password that is can be savely used in configuration files, passwords are long, only lowercase and digits, no symbols
 Available options:
 * **count**: number of passwords to generate (default: 1, limit: 1000)
 * **min/max**: the length of the password (default: 48)
      
-#### /randomsave
+#### [/random](https://password.markei.nl/random)
 Generates a random password
 Available options:
 * **count**: number of passwords to generate (default: 1, limit: 1000)
@@ -34,7 +39,7 @@ Available options:
 * **symbols**: include symbols chars (default: true)
 * **onlyCommonSymbols**: do not use symbols like quotes and accents (default: true)
 
-#### /pincode
+#### [/pincode](https://password.markei.nl/pincode)
 Generates a pincode (only digits)
 Available options:
 * **count**: number of pincodes to generate (default: 1, limit: 1000)
@@ -48,7 +53,7 @@ First install [Composer](https://getcomposer.org)
     cd password-generator-api
     composer install
     
-[Configure](http://symfony.com/doc/4.0/setup/web_server_configuration.html) your webserver or run to use the PHP builtin development server:
+[Configure](http://symfony.com/doc/4.0/setup/web_server_configuration.html) your webserver to serve this Symfony 4 project or run the PHP builtin development server:
 
     php bin/console server:start
     
