@@ -58,3 +58,7 @@ First install [Composer](https://getcomposer.org)
     php bin/console server:start
     
 Go to http://your-domain/human (or with the builtin server http://127.0.0.1:8000/human)
+
+### Change the limit
+
+For local development copy .env.dist to .env and change the value of this env variabele **APP_GENERATION_LIMIT**, for production environments inject this variable via your webserver.

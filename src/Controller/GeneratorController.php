@@ -22,14 +22,17 @@ class GeneratorController
      */
     protected $xmlResponseHelper;
     
+    protected $generationLimit = 100;
+    
     /**
      * @param Helper\HtmlResponseHelper $htmlResponseHelper
      * @param Helper\XmlResponseHelper $xmlResponseHelper
      */
-    public function __construct(Helper\HtmlResponseHelper $htmlResponseHelper, Helper\XmlResponseHelper $xmlResponseHelper)
+    public function __construct(Helper\HtmlResponseHelper $htmlResponseHelper, Helper\XmlResponseHelper $xmlResponseHelper, $generationLimit)
     {
         $this->htmlResponseHelper = $htmlResponseHelper;
         $this->xmlResponseHelper = $xmlResponseHelper;
+        $this->generationLimit = $generationLimit;
     }
     
     /**
@@ -51,8 +54,8 @@ class GeneratorController
     {
         try {
             $numberOfPasswords = $request->query->getInt('count', 1);
-            if ($numberOfPasswords > 1000) {
-                throw new \InvalidArgumentException('Sorry there is a limit of 1000 passwords per call');
+            if ($numberOfPasswords > $this->generationLimit) {
+                throw new \InvalidArgumentException('Sorry there is a limit of ' . $this->generationLimit . ' passwords per call');
             }
             $options = [
                 'source' => $request->query->get('source', 'lipsum'),
@@ -87,8 +90,8 @@ class GeneratorController
     {
         try {
             $numberOfPasswords = $request->query->getInt('count', 1);
-            if ($numberOfPasswords > 1000) {
-                throw new \InvalidArgumentException('Sorry there is a limit of 1000 passwords per call');
+            if ($numberOfPasswords > $this->generationLimit) {
+                throw new \InvalidArgumentException('Sorry there is a limit of ' . $this->generationLimit . ' passwords per call');
             }
             $options = [
                 'lowercase' => true,
@@ -129,8 +132,8 @@ class GeneratorController
     {
         try {
             $numberOfPasswords = $request->query->getInt('count', 1);
-            if ($numberOfPasswords > 1000) {
-                throw new \InvalidArgumentException('Sorry there is a limit of 1000 passwords per call');
+            if ($numberOfPasswords > $this->generationLimit) {
+                throw new \InvalidArgumentException('Sorry there is a limit of ' . $this->generationLimit . ' passwords per call');
             }
             $options = [
                 'lowercase' => $request->query->getBoolean('lowercase', true),
@@ -166,8 +169,8 @@ class GeneratorController
     {
         try {
             $numberOfPasswords = $request->query->getInt('count', 1);
-            if ($numberOfPasswords > 1000) {
-                throw new \InvalidArgumentException('Sorry there is a limit of 1000 passwords per call');
+            if ($numberOfPasswords > $this->generationLimit) {
+                throw new \InvalidArgumentException('Sorry there is a limit of ' . $this->generationLimit . ' passwords per call');
             }
             $options = [
                 'min' => $request->query->getInt('min', 4),
