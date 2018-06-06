@@ -105,7 +105,7 @@ class HumanGenerator implements GeneratorInterface
         if ($options['numberOfCaps'] > 0) {
             $numberOfCaps = rand(1, intval($options['numberOfCaps']));
             for ($i = 0; $i < $numberOfCaps; $i++) {
-                $pos = rand(0, strlen($theWord));
+                $pos = rand(0, strlen($theWord) - 1);
                 $theWord = substr($theWord, 0, $pos) . strtoupper(substr($theWord, $pos, 1)) . substr($theWord, $pos + 1);
             }
         }
