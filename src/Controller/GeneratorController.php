@@ -76,7 +76,7 @@ class GeneratorController
     }
 
     /**
-     * Generates a password that is can be savely used in configuration files, passwords are long, only lowercase and digits, no symbols
+     * Generates a password that can be savely used in configuration files, passwords are long, only lowercase and digits, no symbols
      * Available options:
      * - count: number of passwords to generate (default: 1, limit: 1000)
      * - min/max: the length of the password (default: 48)
@@ -96,6 +96,43 @@ class GeneratorController
             $options = [
                 'lowercase' => true,
                 'uppercase' => false,
+                'digits' => true,
+                'symbols' => false,
+                'onlyCommonSymbols' => false,
+                'min' => $request->query->getInt('min', 48),
+                'max' => $request->query->getInt('max', 48)
+            ];
+            $passwords = [];
+            for ($i = 0; $i < $numberOfPasswords; $i++) {
+                $passwords[] = $generator->generate($options);
+            }
+            return $this->handleSuccess($request, $passwords);
+        } catch (\Exception $e) {
+            return $this->handleException($request, $e);
+        }
+    }
+
+    /**
+     * Generates a password that can be savely used in configuration files, passwords are long, only lowercase, upppercase and digits, no symbols
+     * Available options:
+     * - count: number of passwords to generate (default: 1, limit: 1000)
+     * - min/max: the length of the password (default: 48)
+     * @Route(
+     *  "/randomsave2.{_format}",
+     *  defaults={"_format": "html"},
+     *  requirements={"_format": "html|json|txt|xml"}
+     * )
+     */
+    public function randomSave2(Request $request, Generator\RandomGenerator $generator): Response
+    {
+        try {
+            $numberOfPasswords = $request->query->getInt('count', 1);
+            if ($numberOfPasswords > $this->generationLimit) {
+                throw new \InvalidArgumentException('Sorry there is a limit of ' . $this->generationLimit . ' passwords per call');
+            }
+            $options = [
+                'lowercase' => true,
+                'uppercase' => true,
                 'digits' => true,
                 'symbols' => false,
                 'onlyCommonSymbols' => false,
