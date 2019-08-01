@@ -1,6 +1,6 @@
 {
     "name": "markei/password-generator",
-    "description": "A password genertaor API in Symfony",
+    "description": "A password generator API in Symfony",
     "homepage": "https://github.com/Markei/password-generator-api",
     "type": "project",
     "license": "MIT",
