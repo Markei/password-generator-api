@@ -16,14 +16,14 @@ class GeneratorController
      * @var Helper\HtmlResponseHelper
      */
     protected $htmlResponseHelper;
-    
+
     /**
      * @var Helper\XmlResponseHelper
      */
     protected $xmlResponseHelper;
-    
+
     protected $generationLimit = 100;
-    
+
     /**
      * @param Helper\HtmlResponseHelper $htmlResponseHelper
      * @param Helper\XmlResponseHelper $xmlResponseHelper
@@ -34,7 +34,7 @@ class GeneratorController
         $this->xmlResponseHelper = $xmlResponseHelper;
         $this->generationLimit = $generationLimit;
     }
-    
+
     /**
      * Generates a password that is easy to remember for humans
      * Available options:
@@ -148,7 +148,7 @@ class GeneratorController
             return $this->handleException($request, $e);
         }
     }
-    
+
     /**
      * Generates a random password
      * Available options:
@@ -190,7 +190,7 @@ class GeneratorController
             return $this->handleException($request, $e);
         }
     }
-    
+
     /**
      * Generates a pincode (only digits)
      * Available options:
@@ -222,7 +222,47 @@ class GeneratorController
             return $this->handleException($request, $e);
         }
     }
-    
+
+    /**
+     * Generates a password based on pairs
+     * Available options:
+     * - count: number of pincodes to generate (default: 1, limit: 1000)
+     * - numberOfPairs: the number of pairs in one password (default: 6, limit: 10)
+     * - pairLength: the number of chars/digits of each pair (default: 4, limit: 8)
+     * - separator: the seperator (default: "-", length exact: 1)
+     * - set: the set of chars/digits to use (default: "digits", options: "digits", "chars", "mix", "all", "hex")
+     * - lowercase: use lowercase instead of uppercase for chars (default: 0, options 0, 1)
+     *
+     * @Route(
+     *  "/pair.{_format}",
+     *  defaults={"_format": "html"},
+     *  requirements={"_format": "html|json|txt|xml"}
+     * )
+     */
+    public function pair(Request $request, Generator\PairGenerator $generator): Response
+    {
+        try {
+            $numberOfPasswords = $request->query->getInt('count', 1);
+            if ($numberOfPasswords > $this->generationLimit) {
+                throw new \InvalidArgumentException('Sorry there is a limit of ' . $this->generationLimit . ' passwords per call');
+            }
+            $options = [
+                'numberOfPairs' => $request->query->getInt('numberOfPairs', 6),
+                'pairLength' => $request->query->getInt('pairLength', 4),
+                'separator' => $request->query->get('separator', '-'),
+                'set' => $request->query->get('set', 'digits'),
+                'lowercase' => $request->query->getBoolean('lowercase', false)
+            ];
+            $passwords = [];
+            for ($i = 0; $i < $numberOfPasswords; $i++) {
+                $passwords[] = $generator->generate($options);
+            }
+            return $this->handleSuccess($request, $passwords);
+        } catch (\Exception $e) {
+            return $this->handleException($request, $e);
+        }
+    }
+
     /**
      * @param Request $request
      * @param \Exception $e
@@ -239,10 +279,10 @@ class GeneratorController
         } elseif ($request->getRequestFormat() === 'xml') {
             return new Response($this->xmlResponseHelper->buildExceptionResponse($e)->saveXML());
         }
-        
+
         throw new \LogicException('Unsupported request format');
     }
-    
+
     /**
      * @param Request $request
      * @param array|string[] $passwords
@@ -258,7 +298,7 @@ class GeneratorController
         } elseif ($request->getRequestFormat() === 'xml') {
             return new Response($this->xmlResponseHelper->buildListResponse($passwords)->saveXML());
         }
-        
+
         throw new \LogicException('Unsupported request format');
     }
 }
