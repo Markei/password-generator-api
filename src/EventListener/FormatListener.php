@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Markei\PasswordGenerator\EventListener;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class FormatListener
 {
     /**
      * Set the request_format
      */
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
         
