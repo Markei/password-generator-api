@@ -19,22 +19,6 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     Markei\PasswordGenerator\:
-        resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests}'
-
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    Markei\PasswordGenerator\Controller\:
-        resource: '../src/Controller'
-        tags:
-            { name: 'controller.service_arguments' }
-    Markei\PasswordGenerator\Controller\GeneratorController:
-        public: true
-        arguments:
-            $generationLimit: '%app.generation_limit%'
-        tags:
-            { name: 'controller.service_arguments' }
-    App\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
@@ -42,11 +26,24 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    Markei\PasswordGenerator\Controller\:
+        resource: '../src/Controller'
+        tags:
+           - { name: 'controller.service_arguments' }
+    Markei\PasswordGenerator\Controller\GeneratorController:
+        public: true
+        arguments:
+            $generationLimit: '%app.generation_limit%'
+        tags:
+           - { name: 'controller.service_arguments' }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     Markei\PasswordGenerator\EventListener\FormatListener:
         tags:
-            { name: kernel.event_listener, event: kernel.request }
+           - { name: kernel.event_listener, event: kernel.request }
 
 sensio_framework_extra:
   router:
