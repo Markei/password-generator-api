@@ -1,5 +1,5 @@
 # PasswordGenerator API
-A password generator API written in Symfony 4
+A password generator API written in Symfony 6
 
 ## Use the API
 <https://password.markei.nl/human?count=10> to get a list of passwords, prefer a JSON output? Send a Accept: application/json header or add .json to the url (<https://password.markei.nl/human.json?count=10>).
@@ -22,12 +22,12 @@ Available options:
 * **numberOfCaps**: the maxium number of caps in the word
 * **numberLength**: the number of digits to at to the word
 
-#### [/randomsave](https://password.markei.nl/randomsave)
-Generates a password that is can be savely used in configuration files, passwords are long, only lowercase and digits, no symbols
+#### [/randomsave](https://password.markei.nl/randomsave) and [/randomsave2](https://password.markei.nl/randomsave2)
+Generates a password that is can be savely used in configuration files, passwords are long, has digits and chars, no symbols. `randomsave` only includes lowercase chars, `randomsave2` also includes upercase chars.
 Available options:
 * **count**: number of passwords to generate (default: 1, limit: 1000)
 * **min/max**: the length of the password (default: 48)
-     
+
 #### [/random](https://password.markei.nl/random)
 Generates a random password
 Available options:
@@ -52,13 +52,13 @@ First install [Composer](https://getcomposer.org)
     git clone git@github.com:Markei/password-generator-api.git
     cd password-generator-api
     composer install
-    
-[Configure](http://symfony.com/doc/4.0/setup/web_server_configuration.html) your webserver to serve this Symfony 4 project or run the PHP builtin development server:
 
-    php bin/console server:start
-    
+[Configure](https://symfony.com/doc/current/setup/web_server_configuration.html) your webserver to serve this Symfony 6 project or use the [Symfony local binary](https://github.com/symfony-cli/symfony-cli) to run this project:
+
+    symfony serverLstart
+
 Go to http://your-domain/human (or with the builtin server http://127.0.0.1:8000/human)
 
 ### Change the limit
 
-For local development copy .env.dist to .env and change the value of this env variabele **APP_GENERATION_LIMIT**, for production environments inject this variable via your webserver.
+Override settings in the `.env` file in a new file named `.env.local` and change the value of this env variabele **APP_GENERATION_LIMIT**. You can also inject this env variabels via your webserver.

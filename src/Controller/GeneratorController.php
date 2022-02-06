@@ -12,27 +12,13 @@ use Markei\PasswordGenerator\Helper as Helper;
 
 class GeneratorController
 {
-    /**
-     * @var Helper\HtmlResponseHelper
-     */
-    protected $htmlResponseHelper;
-
-    /**
-     * @var Helper\XmlResponseHelper
-     */
-    protected $xmlResponseHelper;
-
-    protected $generationLimit = 100;
-
-    /**
-     * @param Helper\HtmlResponseHelper $htmlResponseHelper
-     * @param Helper\XmlResponseHelper $xmlResponseHelper
-     */
-    public function __construct(Helper\HtmlResponseHelper $htmlResponseHelper, Helper\XmlResponseHelper $xmlResponseHelper, $generationLimit)
+    public function __construct(
+            protected Helper\HtmlResponseHelper $htmlResponseHelper,
+            protected Helper\XmlResponseHelper $xmlResponseHelper,
+            protected int $generationLimit = 100
+        )
     {
-        $this->htmlResponseHelper = $htmlResponseHelper;
-        $this->xmlResponseHelper = $xmlResponseHelper;
-        $this->generationLimit = $generationLimit;
+        //
     }
 
     /**
@@ -44,12 +30,12 @@ class GeneratorController
      * - removeLO: remove the letters "L" and "O" in words because people confuse them with the "I" and "0"
      * - numberOfCaps: the maxium number of caps in the word
      * - numberLength: the number of digits to at to the word
-     * @Route(
-     *  "/human.{_format}",
-     *  defaults={"_format": "html"},
-     *  requirements={"_format": "html|json|txt|xml"}
-     * )
      */
+    #[Route(
+        path: '/human.{_format}',
+        defaults: ['_format' => 'html'],
+        requirements: ['_format' => 'html|json|txt|xml']
+    )]
     public function human(Request $request, Generator\HumanGenerator $generator): Response
     {
         try {
@@ -80,12 +66,12 @@ class GeneratorController
      * Available options:
      * - count: number of passwords to generate (default: 1, limit: 1000)
      * - min/max: the length of the password (default: 48)
-     * @Route(
-     *  "/randomsave.{_format}",
-     *  defaults={"_format": "html"},
-     *  requirements={"_format": "html|json|txt|xml"}
-     * )
      */
+    #[Route(
+        path: '/randomsave.{_format}',
+        defaults: ['_format' => 'html'],
+        requirements: ['_format' => 'html|json|txt|xml']
+    )]
     public function randomSave(Request $request, Generator\RandomGenerator $generator): Response
     {
         try {
@@ -117,12 +103,12 @@ class GeneratorController
      * Available options:
      * - count: number of passwords to generate (default: 1, limit: 1000)
      * - min/max: the length of the password (default: 48)
-     * @Route(
-     *  "/randomsave2.{_format}",
-     *  defaults={"_format": "html"},
-     *  requirements={"_format": "html|json|txt|xml"}
-     * )
      */
+    #[Route(
+        path: '/randomsave2.{_format}',
+        defaults: ['_format' => 'html'],
+        requirements: ['_format' => 'html|json|txt|xml']
+    )]
     public function randomSave2(Request $request, Generator\RandomGenerator $generator): Response
     {
         try {
@@ -159,12 +145,12 @@ class GeneratorController
      * - digits: include digits chars (default: true)
      * - symbols: include symbols chars (default: true)
      * - onlyCommonSymbols: do not use symbols like quotes and accents (default: true)
-     * @Route(
-     *  "/random.{_format}",
-     *  defaults={"_format": "html"},
-     *  requirements={"_format": "html|json|txt|xml"}
-     * )
      */
+    #[Route(
+        path: '/random.{_format}',
+        defaults: ['_format' => 'html'],
+        requirements: ['_format' => 'html|json|txt|xml']
+    )]
     public function random(Request $request, Generator\RandomGenerator $generator): Response
     {
         try {
@@ -196,12 +182,12 @@ class GeneratorController
      * Available options:
      * - count: number of pincodes to generate (default: 1, limit: 1000)
      * - min/max: the length of the pincodes (default: 6)
-     * @Route(
-     *  "/pincode.{_format}",
-     *  defaults={"_format": "html"},
-     *  requirements={"_format": "html|json|txt|xml"}
-     * )
      */
+    #[Route(
+        path: '/pincode.{_format}',
+        defaults: ['_format' => 'html'],
+        requirements: ['_format' => 'html|json|txt|xml']
+    )]
     public function pincode(Request $request, Generator\PincodeGenerator $generator): Response
     {
         try {
@@ -232,13 +218,12 @@ class GeneratorController
      * - separator: the seperator (default: "-", length exact: 1)
      * - set: the set of chars/digits to use (default: "digits", options: "digits", "chars", "mix", "all", "hex")
      * - lowercase: use lowercase instead of uppercase for chars (default: 0, options 0, 1)
-     *
-     * @Route(
-     *  "/pair.{_format}",
-     *  defaults={"_format": "html"},
-     *  requirements={"_format": "html|json|txt|xml"}
-     * )
      */
+    #[Route(
+        path: '/pair.{_format}',
+        defaults: ['_format' => 'html'],
+        requirements: ['_format' => 'html|json|txt|xml']
+    )]
     public function pair(Request $request, Generator\PairGenerator $generator): Response
     {
         try {

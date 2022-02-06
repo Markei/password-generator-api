@@ -5,10 +5,6 @@ namespace Markei\PasswordGenerator\Helper;
 
 class XmlResponseHelper
 {
-    /**
-     * @param array|string[] $passwords
-     * @return \DOMDocument
-     */
     public function buildListResponse(array $passwords): \DOMDocument
     {
         $dom = new \DOMDocument('1.0', 'utf-8');
@@ -21,11 +17,7 @@ class XmlResponseHelper
         }
         return $dom;
     }
-    
-    /**
-     * @param \Exception $e
-     * @return \DOMDocument
-     */
+
     public function buildExceptionResponse(\Exception $e): \DOMDocument
     {
         $dom = new \DOMDocument('1.0', 'utf-8');

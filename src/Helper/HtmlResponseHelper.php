@@ -5,10 +5,6 @@ namespace Markei\PasswordGenerator\Helper;
 
 class HtmlResponseHelper
 {
-    /**
-     * @var string $content
-     * @return string
-     */
     public function buildBaseResponse(string $content): string
     {
         $html  = '<!doctype html>' . PHP_EOL;
@@ -22,11 +18,7 @@ class HtmlResponseHelper
         $html .= '</html>' . PHP_EOL;
         return $html;
     }
-    
-    /**
-     * @var array|string[] $passwords
-     * @return string
-     */
+
     public function buildListResponse(array $passwords): string
     {
         $html  = '        <ul>' . PHP_EOL;
@@ -36,11 +28,7 @@ class HtmlResponseHelper
         $html .= '        </ul>' . PHP_EOL;
         return $this->buildBaseResponse($html);
     }
-    
-    /**
-     * @param \Exception $e
-     * @return string
-     */
+
     public function buildExceptionResponse(\Exception $e): string
     {
         $html = '<strong>' . htmlentities(get_class($e), \ENT_COMPAT | \ENT_HTML5, 'UTF-8') . '</strong> ' ;

@@ -5,11 +5,8 @@ namespace Markei\PasswordGenerator\Generator;
 
 class HumanGenerator implements GeneratorInterface
 {
-    /**
-     * @var array
-     */
-    protected $sources = [];
-    
+    protected array $sources = [];
+
     public function __construct()
     {
         $this->sources = [
@@ -19,7 +16,7 @@ class HumanGenerator implements GeneratorInterface
         ];
         $this->sources['lipsum'] = $this->sources['lipsum1'] . ' ' . $this->sources['lipsum2'] . ' ' . $this->sources['lipsum3'];
     }
-   
+
     public function validateOptions(array $options): void
     {
         if (isset($options['source']) === false) {
@@ -44,7 +41,7 @@ class HumanGenerator implements GeneratorInterface
         if (is_bool($options['removeLO']) === false) {
             throw new \InvalidArgumentException('option: removeLO must be a boolean');
         }
-        
+
         if (is_int($options['minWordLength']) === false) {
             throw new \InvalidArgumentException('option: minWordLength must be an integer');
         }
@@ -57,30 +54,30 @@ class HumanGenerator implements GeneratorInterface
         if (is_int($options['numberLength']) === false) {
             throw new \InvalidArgumentException('option: numberLength must be an integer');
         }
-        
+
         if (isset($this->sources[$options['source']]) === false) {
             throw new \InvalidArgumentException('The value for the source option is invalid');
         }
-        
+
         if (is_int($options['minWordLength']) === false || $options['minWordLength'] < 0 || $options['minWordLength'] > 10) {
             throw new \InvalidArgumentException('option: minWordLength needs to be between 0 and 10');
         }
     }
-    
+
     public function generate(array $options): string
     {
         $this->validateOptions($options);
-        
+
         $text = $this->sources[$options['source']];
         $text = strtolower($text);
         $words = preg_split('/(([^a-zA-Z]?\s)|[^a-zA-Z])/', $text);
-        
+
         if ($options['removeLO'] == true) {
             $words = array_map(function ($word) {
                 return str_replace(['L', 'l', 'O', 'o'], '', $word);
             }, $words);
         }
-        
+
         if ($options['minWordLength'] > 0) {
             $words = array_filter($words, function ($word) use ($options) {
                 if ($options['minWordLength'] > strlen($word)) {
@@ -89,7 +86,7 @@ class HumanGenerator implements GeneratorInterface
                 return true;
             });
         }
-        
+
         if ($options['maxWordLength'] > 0) {
             $words = array_map(function ($word) use ($options) {
                 $wordLength = strlen($word);
@@ -99,9 +96,9 @@ class HumanGenerator implements GeneratorInterface
                 return $word;
             }, $words);
         }
-        
+
         $theWord = $words[array_rand($words)];
-        
+
         if ($options['numberOfCaps'] > 0) {
             $numberOfCaps = rand(1, intval($options['numberOfCaps']));
             for ($i = 0; $i < $numberOfCaps; $i++) {
@@ -109,14 +106,14 @@ class HumanGenerator implements GeneratorInterface
                 $theWord = substr($theWord, 0, $pos) . strtoupper(substr($theWord, $pos, 1)) . substr($theWord, $pos + 1);
             }
         }
-        
+
         $numbers = '';
         for ($i = 0; $i < $options['numberLength']; $i ++) {
             $numbers .= rand(0, 9);
         }
-        
+
         $theWord = (rand(0, 1) === 0 ? $numbers . $theWord : $theWord . $numbers);
-        
+
         return $theWord;
     }
 }

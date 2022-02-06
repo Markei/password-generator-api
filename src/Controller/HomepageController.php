@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomepageController extends AbstractController
 {
-    /**
-     * @Route("/")
-     */
+    #[Route(
+        path: '/',
+    )]
     public function indexAction(): Response
     {
         return $this->redirectToRoute('markei_passwordgenerator_generator_human');
