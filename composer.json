@@ -19,7 +19,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "symfony/flex": "^2",
-        "sensio/framework-extra-bundle": "^6.2",
         "symfony/console": "*",
         "symfony/dotenv": "*",
         "symfony/framework-bundle": "*",
@@ -77,13 +76,13 @@
         "post-update-cmd": [
             "@auto-scripts"
         ]
-    },         
+    },
     "conflict": {
         "symfony/symfony": "*"
     },
     "extra": {
         "symfony": {
-            "require": "6.0.*",
+            "require": "6.4.*",
             "id": "01C2016TG8K7BME2MMXTFS7XGY",
             "allow-contrib": false
         }
