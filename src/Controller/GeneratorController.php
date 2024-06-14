@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace Markei\PasswordGenerator\Controller;
 
+use DOMException;
+use LogicException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Markei\PasswordGenerator\Generator as Generator;
+use Markei\PasswordGenerator\Generator\RandomGenerator;
 use Markei\PasswordGenerator\Helper as Helper;
 
 class GeneratorController
@@ -62,10 +65,7 @@ class GeneratorController
     }
 
     /**
-     * Generates a password that can be savely used in configuration files, passwords are long, only lowercase and digits, no symbols
-     * Available options:
-     * - count: number of passwords to generate (default: 1, limit: 1000)
-     * - min/max: the length of the password (default: 48)
+     * Alias for randomSafe
      */
     #[Route(
         path: '/randomsave.{_format}',
@@ -73,6 +73,22 @@ class GeneratorController
         requirements: ['_format' => 'html|json|txt|xml']
     )]
     public function randomSave(Request $request, Generator\RandomGenerator $generator): Response
+    {
+        return $this->randomSafe($request, $generator);
+    }
+
+    /**
+     * Generates a password that can be safely used in configuration files, passwords are long, only lowercase and digits, no symbols
+     * Available options:
+     * - count: number of passwords to generate (default: 1, limit: 1000)
+     * - min/max: the length of the password (default: 48)
+     */
+    #[Route(
+        path: '/randomsafe.{_format}',
+        defaults: ['_format' => 'html'],
+        requirements: ['_format' => 'html|json|txt|xml']
+    )]
+    public function randomSafe(Request $request, Generator\RandomGenerator $generator): Response
     {
         try {
             $numberOfPasswords = $request->query->getInt('count', 1);
@@ -99,10 +115,7 @@ class GeneratorController
     }
 
     /**
-     * Generates a password that can be savely used in configuration files, passwords are long, only lowercase, upppercase and digits, no symbols
-     * Available options:
-     * - count: number of passwords to generate (default: 1, limit: 1000)
-     * - min/max: the length of the password (default: 48)
+     * Alias for randomSave2
      */
     #[Route(
         path: '/randomsave2.{_format}',
@@ -110,6 +123,22 @@ class GeneratorController
         requirements: ['_format' => 'html|json|txt|xml']
     )]
     public function randomSave2(Request $request, Generator\RandomGenerator $generator): Response
+    {
+        return $this->randomSafe2($request, $generator);
+    }
+
+    /**
+     * Generates a password that can be savely used in configuration files, passwords are long, only lowercase, upppercase and digits, no symbols
+     * Available options:
+     * - count: number of passwords to generate (default: 1, limit: 1000)
+     * - min/max: the length of the password (default: 48)
+     */
+    #[Route(
+        path: '/randomsafe2.{_format}',
+        defaults: ['_format' => 'html'],
+        requirements: ['_format' => 'html|json|txt|xml']
+    )]
+    public function randomSafe2(Request $request, Generator\RandomGenerator $generator): Response
     {
         try {
             $numberOfPasswords = $request->query->getInt('count', 1);
