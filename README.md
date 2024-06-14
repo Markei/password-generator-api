@@ -22,8 +22,8 @@ Available options:
 * **numberOfCaps**: the maxium number of caps in the word
 * **numberLength**: the number of digits to at to the word
 
-#### [/randomsave](https://password.markei.nl/randomsave) and [/randomsave2](https://password.markei.nl/randomsave2)
-Generates a password that is can be savely used in configuration files, passwords are long, has digits and chars, no symbols. `randomsave` only includes lowercase chars, `randomsave2` also includes upercase chars.
+#### [/randomsafe](https://password.markei.nl/randomsafe) and [/randomsafe2](https://password.markei.nl/randomsafe2)
+Generates a password that is can be savely used in configuration files, passwords are long, has digits and chars, no symbols. `randomsafe` only includes lowercase chars, `randomsafe2` also includes upercase chars.
 Available options:
 * **count**: number of passwords to generate (default: 1, limit: 1000)
 * **min/max**: the length of the password (default: 48)
@@ -45,6 +45,16 @@ Available options:
 * **count**: number of pincodes to generate (default: 1, limit: 1000)
 * **min/max**: the length of the pincodes (default: 6)
 
+#### [/pair](https://password.markei.nl/pair)
+Generates a password made of multiple pairs (xxxx-yyyy-zzzz)
+Available options:
+* **count**: number of pincodes to generate (default: 1, limit: 1000)
+* **numberOfPairs**: the number of pairs/parts (default: 6)
+* **pairLength**: the length of each pair/part (default: 4)
+* **separator**: the separator that will be placed between each pair (default `-`)
+* **set**: which type of chars are included `digits` only digits in each pair, `chars` only chars A to Z, `mix` mix digits and chars but not in the same pair, `all` mix digits and chars even in the same pair, `hex` only hex chars 0 to F (default: digits)
+* **lowercase**: set 1 to use lowercase chars instead of uppercase (default: false)
+
 ## Install the API on your own domain
 
 First install [Composer](https://getcomposer.org)
@@ -55,7 +65,7 @@ First install [Composer](https://getcomposer.org)
 
 [Configure](https://symfony.com/doc/current/setup/web_server_configuration.html) your webserver to serve this Symfony 6 project or use the [Symfony local binary](https://github.com/symfony-cli/symfony-cli) to run this project:
 
-    symfony serverLstart
+    symfony server:start
 
 Go to http://your-domain/human (or with the builtin server http://127.0.0.1:8000/human)
 
