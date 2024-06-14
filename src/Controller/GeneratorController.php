@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Markei\PasswordGenerator\Controller;
 
-use DOMException;
-use LogicException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
